@@ -1,0 +1,16 @@
+<launch>
+
+    <arg name="rect_image_topic" default="/zed2i/zed_node/left/image_rect_color/compressed" />
+    <arg name="pose_topic" default="/zed2i/zed_node/pose" />
+    <arg name="image_directory" default="$(find transform_projection)/data" />
+
+    <node pkg="transform_projection" type="extract_frames.py" name="extract_frames" output="screen" args="--rect_image_topic $(arg rect_image_topic) --pose_topic $(arg pose_topic) --image_directory $(arg image_directory)/data_frames/images"/>
+
+    <arg name="delay" default="2" />    
+    <!-- Playing single bag -->
+    <!-- Passing on the copied bag file as argument -->
+    <arg name="bags_path" default="$(find transform_projection)/bags" />
+    <arg name="bags_basename" default = "2023-05-23*" />
+    <node pkg="transform_projection" type="bag.sh" name="player" output="screen" args="$(arg bags_path)/$(arg bags_basename).bag" />
+    
+</launch>

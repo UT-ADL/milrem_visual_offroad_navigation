@@ -1,0 +1,37 @@
+<launch>
+    
+    <arg name='odom_topic' default='/odmetry/filtered' />
+    <arg name='joy_topic' default='/bluetooth_teleop/joy' />
+    <arg name='local_config_directory_path' default='$(find robot)/config/' />
+    <arg name='extracted_data_directory_path' default='$(find robot)/data/extracted_dataset/2023-11-08-16-08-07/' />
+    <arg name='local_model_type' default='gnm' />    
+    <arg name='local_model_path' default='$(find robot)/data/onnx_models/GNM.onnx' />
+    <arg name='fps' default='15' />
+    <arg name='goals_spacing' default='2.0' />
+    <arg name='odometry_tolerance' default='0.5' />
+    <arg name='goal_conditioning_threshold' default='1.0' />
+    <arg name='record_video' default='' />    
+
+    <node pkg="robot" type="inference_distance_spaced_goals.py" name="inference_distance_spaced_goals" required="true" output="screen">
+        <param name="local_config_directory_path" value="$(arg local_config_directory_path)" />
+        <param name="extracted_data_directory_path" value="$(arg extracted_data_directory_path)" />
+        <param name="local_model_type" value="$(arg local_model_type)" />
+        <param name="local_model_path" value="$(arg local_model_path)" />
+        <param name="fps" value="$(arg fps)" />
+        <param name="goals_spacing" value="$(arg goals_spacing)" />
+        <param name="odometry_tolerance" value="$(arg odometry_tolerance)" />
+        <param name="goal_conditioning_threshold" value="$(arg goal_conditioning_threshold)" />
+        <param name="record_video" value="$(arg record_video)" />
+
+        <param name="base_link_frame" value="base_link" />
+        <param name="left_camera_frame" value="zed_left_camera_frame" />
+        <param name="left_camera_optical_frame" value="zed_left_camera_optical_frame" />
+
+        <!-- <remap from="/zed/zed_node/left_raw/image_raw_color/compressed" to="/zed2i/zed_node/left_raw/image_raw_color/compressed" /> -->
+        <!-- <remap from="/zed/zed_node/left_raw/camera_info" to="/zed2i/zed_node/left_raw/camera_info" /> -->
+    </node>
+
+    <!-- Running on live camera feed -->
+    <include file="$(find robot)/launch/zed_cam_15fps.launch" />
+
+</launch>

@@ -1,0 +1,19 @@
+project_name: global-planner
+run_name: contrastive
+save_dir: "logs/"
+seed: 42
+
+trajectory_min_length: 40
+trajectory_max_length: 40
+trajectory_sampling_rate: 50
+map_size: 200
+map_type: "baseelev"
+num_negative_samples: 500
+negative_distance_thres: 0.05
+
+max_epochs: 100
+batch_size: 10
+lr: 1e-4
+lr_patience: 10
+lr_factor: 0.5
+num_workers: 5

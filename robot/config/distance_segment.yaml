@@ -1,0 +1,20 @@
+project_name: global-planner
+run_name: segment
+save_dir: "logs/"
+seed: 42
+
+trajectory_min_length: 10
+trajectory_max_length: 40
+trajectory_sampling_rate: 50
+map_size: 200
+map_type: "baseelev" # baseelev, orienteering
+mask_type: "distance" # simple, gaussian, distance
+kernel_size: 33
+sigma: 3.1
+
+max_epochs: 30
+batch_size: 20
+lr: 1e-4
+lr_patience: 10
+lr_factor: 0.5
+num_workers: 5

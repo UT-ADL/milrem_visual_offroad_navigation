@@ -1,0 +1,44 @@
+# Project name used in W&B logging
+project_name: global-planner
+# Training run name used in W&B logging
+run_name: segment
+# Logs directory
+save_dir: "logs/"
+# Random seed
+seed: 42
+# Minimum trajectory length
+trajectory_min_length: 10
+# Maximum trajectory length
+trajectory_max_length: 160
+# Trajectory length used for prediction and simulation videos
+trajectory_sim_length: 40
+# Distance between trajectory waypoint in frames
+trajectory_sampling_rate: 50
+# Size of the map used for training.
+# Map size is measured confusingly from the center point to the edge, so actual map size is 2x as big.
+# Parameter 200 gives map size of 400x400px.
+map_size: 200
+# Map type used
+map_type: "baseelev" # baseelev, orienteering
+distance_threshold: 3
+# Mask used for encoding target trajectory and start and goal locations:
+# simple -  no gaussian smoothing applied
+# gaussian - gaussian smoothing is applied using kernel_size and sigma parameters
+# distance - in addition to gaussian smoothing, target trajectory probability starts from 0.5 to 1.0 value at goal
+# gaussian-distance - distance and gaussian encoding applied together
+mask_type: "gaussian-distance"
+# Gaussian smoothing parameters, not used for simple mask
+kernel_size: 33
+sigma: 3.1
+# Maximum epochs model is trained
+max_epochs: 15
+# Batch size used for training
+batch_size: 20
+# Starting learning rate
+lr: 1e-4
+# Number of epochs after which learning rate is decreased if validation loss does not improve.
+lr_patience: 5
+# Learning rate multiplying factor used to decrease the learning rate after lr_patience is reached.
+lr_factor: 0.5
+# Number of workers used for dataloading
+num_workers: 5

@@ -1,0 +1,23 @@
+# training setup
+devices: 4
+batch_size: 200
+eval_batch_size: 200
+
+viz_video_dataset: /home/romet/data/test-data/2023-07-28-14-08-06
+
+# dataset specific parameters
+datasets:
+  recon:
+    data_folder: /home/romet/data/recon_processed # path to the dataset
+    train: data/data_splits/recon/train/ # path to the train dir with traj_names.txt
+    test: data/data_splits/recon/test/ # path to the test dir with traj_names.txt
+    end_slack: 3 # because many trajectories end in collisions
+    goals_per_obs: 1 # how many goals are sampled per observation
+    negative_mining: False # negative mining from the ViNG paper (Shah et al.)
+  milrem:
+    data_folder: /home/romet/data/milrem_aire_processed # path to the dataset
+    train: data/data_splits/milrem/train/ # path to the train dir with traj_names.txt
+    test: data/data_splits/milrem/test/ # path to the test dir with traj_names.txt
+    end_slack: 3 # because many trajectories end in collisions
+    goals_per_obs: 1 # how many goals are sampled per observation
+    negative_mining: False # negative mining from the ViNG paper (Shah et al.)

@@ -1,0 +1,8 @@
+program: 'train_sweep.py'
+method: 'grid'
+metric:
+  name: 'val_loss'
+  goal: 'minimize'
+parameters:
+  map_type:
+    values: ['base', 'baseelev', 'hybrid', 'orienteering', 'ortho', 'roadmap', 'satellite']

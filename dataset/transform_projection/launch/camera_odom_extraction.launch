@@ -1,0 +1,23 @@
+<launch>
+
+    <arg name="rect_image_topic" default="/zed2i/zed_node/left/image_rect_color/compressed" />
+    <arg name="camera_info_topic" default="/zed2i/zed_node/left/camera_info" />
+    <arg name="pose_topic" default="/zed2i/zed_node/pose" />
+    <arg name="image_directory" default="$(find transform_projection)/data" />
+    <arg name="csv_directory" default="$(find transform_projection)/data" />
+    <arg name="queue_length_frames" default="100" />
+    <arg name="queue_length_distance" default="50" />
+    <arg name="queue_length_time" default="60" />
+
+    <node pkg="transform_projection" type="projection_frames.py" name="projection_pose_every_frame" args="--rect_image_topic $(arg rect_image_topic) --camera_info_topic $(arg camera_info_topic) --pose_topic $(arg pose_topic) --image_directory $(arg image_directory)/data_frames/images --csv_directory $(arg csv_directory)/data_frames/csv --queue_length $(arg queue_length_frames)"/>
+    <node pkg="transform_projection" type="projection_time.py" name="projection_pose_every_second" args="--rect_image_topic $(arg rect_image_topic) --camera_info_topic $(arg camera_info_topic) --pose_topic $(arg pose_topic) --image_directory $(arg image_directory)/data_time/images --csv_directory $(arg csv_directory)/data_time/csv --queue_length $(arg queue_length_time)"/>
+    <node pkg="transform_projection" type="projection_distance.py" name="projection_pose_every_meter" args="--rect_image_topic $(arg rect_image_topic) --camera_info_topic $(arg camera_info_topic) --pose_topic $(arg pose_topic) --image_directory $(arg image_directory)/data_distance/images --csv_directory $(arg csv_directory)/data_distance/csv --queue_length $(arg queue_length_distance)"/>
+
+    <arg name="delay" default="2" />    
+    <!-- Playing single bag -->
+    <!-- Passing on the copied bag file as argument -->
+    <arg name="bags_path" default="$(find transform_projection)/bags" />
+    <arg name="bags_basename" default = "2023-05-03-*" />
+    <node pkg="transform_projection" type="bag.sh" name="player" output="screen" args="$(arg bags_path)/$(arg bags_basename).bag" />
+    
+</launch>

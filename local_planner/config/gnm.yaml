@@ -1,0 +1,69 @@
+project_name: local-planner
+run_name: gnm
+
+# training setup
+use_wandb: True # set to false if you don't want to log to wandb
+train: True
+batch_size: 400
+eval_batch_size: 400
+num_workers: 12
+lr: 5e-4
+optimizer: adam
+seed: 0
+accelerator: 'gpu'
+devices: 1
+max_epochs: 30
+num_sanity_val_steps: 0
+
+# model params
+model_type: gnm
+obs_encoding_size: 1024
+goal_encoding_size: 1024
+latent_dim: 128
+
+# normalization for the action space
+normalize: True
+
+# context
+context_type: temporal
+context_size: 5
+
+# tradeoff between action and distance prediction loss
+alpha: 0.5
+
+# distance bounds for distance and action and distance predictions 
+distance:
+  min_dist_cat: 0
+  max_dist_cat: 20
+action:
+  min_dist_cat: 2
+  max_dist_cat: 10
+close_far_threshold: 10 # distance threshold used to seperate the close and the far  subgoals that are sampled per datapoint
+
+# action output params
+len_traj_pred: 5
+learn_angle: True
+
+# dataset specific parameters
+image_size: [85, 64] # width, height
+datasets:
+  recon:
+    data_folder: /home/romet/data2/datasets/recon # path to the dataset
+    train: data/data_splits/recon/train/ # path to the train dir with traj_names.txt
+    test: data/data_splits/recon/test/ # path to the test dir with traj_names.txt
+    end_slack: 3 # because many trajectories end in collisions
+    goals_per_obs: 1 # how many goals are sampled per observation
+    negative_mining: False # negative mining from the ViNG paper (Shah et al.)
+  milrem:
+    data_folder: /home/romet/projects/ut/milrem/drive-any-robot/datasets/milrem # path to the dataset
+    train: data/data_splits/milrem/train/ # path to the train dir with traj_names.txt
+    test: data/data_splits/milrem/test/ # path to the test dir with traj_names.txt
+    end_slack: 3 # because many trajectories end in collisions
+    goals_per_obs: 1 # how many goals are sampled per observation
+    negative_mining: False # negative mining from the ViNG paper (Shah et al.)
+
+# logging stuff
+num_images_log: 20 # number of images to log in a logging iteration
+video_freq: 10 # in epochs
+
+save_dir: "logs/"

@@ -1,0 +1,29 @@
+model_params:
+  name: 'MDN'
+  num_gaussians: 3
+  context_length: 5
+  pred_trajectory_length: 5
+
+data_params:
+  train_batch_size: 64
+  train_num_workers: 16
+  val_batch_size: 64
+  val_num_workers: 16
+  image_size: [85, 64]
+  context_length: 5
+  waypoint_spacing: 15
+  pred_trajectory_length: 5
+
+exp_params:
+  LR: 0.0005
+  weight_decay: 0.0
+  scheduler_gamma: 0.95
+  manual_seed: 1265
+
+trainer_params:
+  max_epochs: 10
+
+logging_params:
+  save_dir: "logs/"
+  name: "WaypointMDN"
+  

@@ -1,0 +1,9 @@
+<launch>
+
+    <node pkg="transform_projection" type="camera_pose_to_optical_frame.py" name="visualiztion_of_future_relative_poses_in_optical_frame" />
+
+    <arg name="bag_delay" default="2" />
+    <arg name="bag_file" default="2023-06-13-15-49-17_0.bag" />
+    <node name="bag_player" pkg="rosbag" type="play" output="screen" args="--delay=$(arg bag_delay) /home/anish/catkin_ws/bags/$(arg bag_file)" />
+
+</launch>

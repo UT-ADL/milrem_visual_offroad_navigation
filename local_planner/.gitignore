@@ -1,0 +1,5 @@
+/videos/
+/lightning_logs/
+/logs/
+/.ipynb_checkpoints/
+/config/env.yaml

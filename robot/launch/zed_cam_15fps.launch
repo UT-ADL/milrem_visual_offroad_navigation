@@ -1,0 +1,17 @@
+<launch>
+
+    <!-- Setting the static tf between robot's base link and zed camera's base link -->
+    <include file="$(find zed_wrapper)/launch/zed.launch">
+        <arg name="cam_pos_x" value="0.1890" />
+        <arg name="cam_pos_y" value="0.0110" />
+        <arg name="cam_pos_z" value="0.2935" />
+        <arg name="cam_roll" value="0.0" />
+        <arg name="cam_pitch" value="0.0" />
+        <arg name="cam_yaw" value="0.0" />
+    </include>
+
+    <param name="/zed/zed_node/pos_tracking/publish_map_tf" type="Bool" value="false" />
+    <param name="/zed/zed_node/pos_tracking/publish_tf" type="Bool" value="false" />
+    <param name="/zed/zed_node/pos_tracking/pos_tracking_enabled" type="Bool" value="false" />    
+
+</launch>

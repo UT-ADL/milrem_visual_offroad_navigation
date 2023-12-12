@@ -1,0 +1,10 @@
+program: 'train_sweep.py'
+method: 'grid'
+metric:
+  name: 'val_loss'
+  goal: 'minimize'
+parameters:
+  mask_type:
+    values: ['simple', 'gaussian', 'distance', 'gaussian-distance']
+  trajectory_max_length:
+    values: [ 120, 80, 40 ]

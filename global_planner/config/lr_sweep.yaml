@@ -1,0 +1,8 @@
+program: 'train_sweep.py'
+method: 'grid'
+metric:
+  name: 'val_loss'
+  goal: 'minimize'
+parameters:
+  lr:
+    values: [ 1e-02, 1e-03, 1e-04, 1e-05, 1e-06 ]

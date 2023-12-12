@@ -1,0 +1,33 @@
+model_params:
+  name: 'GNM'
+  model_type: "gnm"
+  context_length: 5  # number of images to use as context
+  pred_trajectory_length: 5  # number of waypoints to predict
+  learn_angle: True  # bool to determine whether to learn/predict heading of the robot
+  image_size: [ 85, 64 ]  # (width, height)
+  normalize: True  # bool to determine whether or not normalize the waypoints
+  obs_encoding_size: 1024  # size of the encoding of the observation [only used by gnm and siamese]
+  goal_encoding_size: 1024  # size of the encoding of the goal [only used by gnm and siamese]
+  obsgoal_encoding_size: 2048  # size of the encoding of the observation and goal [only used by stacked model]
+  waypoint_spacing: 15
+
+data_params:
+  image_size: [85, 64]
+  context_length: 5
+  waypoint_spacing: 15
+  pred_trajectory_length: 5
+
+exp_params:
+  LR: 0.0005
+  weight_decay: 0.0
+  scheduler_gamma: 0.95
+  manual_seed: 1265
+
+trainer_params:
+  accelerator: 'gpu'
+  devices: 1
+  max_epochs: 10
+
+logging_params:
+  save_dir: "logs/"
+  name: "GNM"

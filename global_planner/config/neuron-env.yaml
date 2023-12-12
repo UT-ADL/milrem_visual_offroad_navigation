@@ -1,0 +1,8 @@
+# Neuron environment specific parameters
+dataset_path: "/home/romet/data/extracted_datasets/"
+map_path: "/home/romet/data/maps/utm"
+
+trainer_devices: [0, 1, 2, 3]
+trainer_strategy: "ddp"
+
+batch_size: 7

@@ -1,0 +1,39 @@
+model_params:
+  name: 'WaypointVAE'
+  in_channels: 6
+  latent_dim: 128
+  obs_encoding_size: 1024
+  goal_encoding_size: 1024
+  context_length: 5
+  waypoint_spacing: 15
+  pred_trajectory_length: 5
+  num_samples: 20
+
+
+data_params:
+  train_batch_size: 64
+  train_num_workers: 16
+  val_batch_size:  64
+  val_num_workers: 16
+  image_size:  [85, 64]
+  context_length: 5
+  waypoint_spacing: 15
+  pred_trajectory_length: 5
+
+exp_params:
+  LR: 0.0005
+  weight_decay: 0.0
+  scheduler_gamma: 0.95
+  kld_weight: 0.00025
+  manual_seed: 1265
+  distance_loss_weight: 0.5
+
+trainer_params:
+  accelerator: 'gpu'
+  devices: 1
+  max_epochs: 10
+
+logging_params:
+  save_dir: "logs/"
+  name: "WaypointVAE"
+  

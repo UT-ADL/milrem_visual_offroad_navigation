@@ -1,0 +1,39 @@
+<launch>
+    
+    <arg name='goal_image' default='$(find robot)/data/images/IMG_6359.jpg' />
+    <arg name='map_name' default='Delta' />
+    <arg name='record_video' default='' />
+    <arg name='config_dir_path' default='$(find robot)/config' />
+    <arg name='local_model_type' default='nomad' doc='vae, gnm, gnm-pretrained, mdn, nomad' />
+    <arg name='local_model_path' default='$(find robot)/data/onnx_models' />
+    <arg name='global_model_path' default='$(find robot)/data/onnx_models/distance_segment.onnx' />
+    <arg name='map_path' default='$(find robot)/data/maps' />
+    <arg name='fps' default='15' />
+    <arg name='orientation_fix' default='30' />
+    <arg name='goal_conditioning_threshold' default='1.0' />
+    <arg name='timer_frequency' default='7.0' />
+    <arg name='node_name' default='inference_nomad.py' />     
+
+    <node pkg="robot" type="$(arg node_name)" name="inference" required="true" output="screen">
+        <param name="config_dir_path" value="$(arg config_dir_path)" />
+        <param name="local_model_type" value="$(arg local_model_type)" />
+        <param name="local_model_path" value="$(arg local_model_path)" />
+        <param name="global_model_path" value="$(arg global_model_path)" />
+        <param name="map_path" value="$(arg map_path)" />
+        <param name="map_name" value="$(arg map_name)" />
+        <param name="fps" value="$(arg fps)" />
+        <param name="orientation_fix" value="$(arg orientation_fix)" />
+        <param name="goal_conditioning_threshold" value="$(arg goal_conditioning_threshold)" />
+        <param name="record_video" value="$(arg record_video)" />
+        <param name="timer_frequency" value="$(arg timer_frequency)" />
+
+        <param name="base_link_frame" value="base_link" />
+        <param name="left_camera_frame" value="zed_left_camera_frame" />
+        <param name="left_camera_optical_frame" value="zed_left_camera_optical_frame" />
+
+    </node>
+
+    <!-- Publish goal image -->
+    <node pkg="robot" type="image_publisher_node.py" name="image_publisher" args="$(arg goal_image)" required="true" output="screen" />
+    
+</launch>
