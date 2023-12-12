@@ -5,47 +5,66 @@
 | Company name | [Milrem Robotics]([https://website.link](https://milremrobotics.com/)) |
 | :--- | :--- |
 | Development Team Lead Name | [Tambet Matiisen](https://www.etis.ee/CV/Tambet_Matiisen/eng), University of Tartu |
-| Objectives of the Demonstration Project |  |
 
 ## Objectives of the Demonstration Project
 
 The goal of the project is to collect and validate dataset for vision-based off-road navigation with geographical hints.
 
 Milrem UGV needs to be able to navigate
-1. in unstructured environment (no buildings, roads, etc.),
+1. in unstructured environment (no buildings, roads or other landmarks),
 2. with passive sensors (using only camera and GNSS, active sensors make the UGV discoverable to the enemy),
 3. with no prior map or with outdated map,
-4. with unreliable satellite positioning signal.
+4. with unreliable satellite positioning signals.
 
-System that satisfies the above criteria was proposed in [ViKiNG paper](https://sites.google.com/view/viking-release) by Dhruv Shah and Sergey Levine from University of California, Berkeley. The paper demonstrated vision-based kilometer-scale navigation with geographical hints in semi-structured urban environment, including parks. The goal of this project was to extend the ViKiNG solution to unstructured off-road environment, for example forests.
+System that satisfies the above goals was proposed in the [ViKiNG paper](https://sites.google.com/view/viking-release) by Dhruv Shah and Sergey Levine from University of California, Berkeley. The paper demonstrated vision-based kilometer-scale navigation with geographical hints in semi-structured urban environments, including parks. The goal of this project was to extend the ViKiNG solution to unstructured off-road environments, for example forests.
 
 ## Activities and results of demonstration project
 
 ### Challenge adressed
 
-Vision-based navigation in unstructured environment can only be achieved with the help of AI, in particular with artificial neural networks. Neural networks need a lot of training data to work well. Therefore the main goal of this project was to collect and validate the data to train artificial neural networks. We set ourselves a goal to collect 50 hours of data consisting of 150 km of trajectories. In the end 50 hours of data was collected with slightly lesser distance of 104 km.
+The goal of using passive sensors means that the camera is the primary sensor. The currently best known way to make sense of camera images is to use artificial neural networks. These networks need a lot of training data to work well. Therefore the main goal of this project was to collect and validate the data to train artificial neural networks for vision-based navigation.
 
-In addition to collecting the data we wanted to also validate if it is usable for training the neural networks. We actually went a bit further than that by not only training the networks, but also implementing proof-of-concept system on [Jackal robot](https://clearpathrobotics.com/jackal-small-unmanned-ground-vehicle/).
+We set ourselves a goal to collect 50 hours of data consisting of 150 km of trajectories. This was inspired by the ViKiNG paper having 42 hours of training data. Time-wise this goal was achieved, distance-wise slightly less data was collected, 104 km.
+
+In addition to collecting the data we wanted to also validate if it is usable for training the neural networks. We actually went further than that by not only training the networks, but also implementing a proof-of-concept navigation system on [Jackal robot](https://clearpathrobotics.com/jackal-small-unmanned-ground-vehicle/).
 
 ### Data sources
 
-For the purpose of this project a dataset was collected. The dataset consists of three parts:
-1. camera images (and accompanying visual odometry),
-2. GPS trajectories,
-3. maps.
+The data was collected during Apr 12 - Oct 6, 2023 from 27 orienteering events and 20 self-guided sessions. Details of the places and weather conditions can be found in [this table](https://docs.google.com/spreadsheets/d/1QvA2ZYTeZOpk7b1DCHypi17wS-ywxv5n0ifdOzRoi_o/edit?usp=sharing).
 
-The data was collected from [27 orienteering events](https://docs.google.com/spreadsheets/d/1QvA2ZYTeZOpk7b1DCHypi17wS-ywxv5n0ifdOzRoi_o/edit?usp=sharing) within and around Tartu. Data collection was performed with golf trolley fitted with following sensors:
+Data collection was performed with golf trolley fitted with following sensors:
 * [ZED 2i](https://www.stereolabs.com/products/zed-2) stereo camera
 * [Xsens MTI-710G](https://www.movella.com/products/sensor-modules/xsens-mti-g-710-gnss-ins) GNSS/INS device
 * 3x [GoPro cameras](https://gopro.com/en/us/shop/cameras/hero12-black/CHDHX-121-master.html) at three different heights
 
-In addition to the sensor readings, following maps of each area were acquired:
+Four different types of data was collected:
+1. camera images,
+2. visual odometry (trajectories derived from camera movement),
+3. GPS trajectories,
+4. maps.
+
+Following types of maps were acquired:
 * orienteering maps (usually from organizers, sometimes from [Estonian O-Map](https://okaart.osport.ee/))
+
+  ![orienteering map](images/otepaa_orienteering.jpg)
 * [Estonian base map](https://geoportaal.maaamet.ee/eng/Spatial-Data/Topographic-Maps/Estonian-Basic-Map-1-10-000-p306.html) (from [Estonian Land Board](https://maaamet.ee/en))
+
+  ![Estonian base map](images/otepaa_base.jpg)
 * [Estonian base map](https://geoportaal.maaamet.ee/eng/Spatial-Data/Topographic-Maps/Estonian-Basic-Map-1-10-000-p306.html) with elevation (from [Estonian Land Board](https://maaamet.ee/en))
+
+  ![Estonian base map with elevation](images/otepaa_baseelev.jpg)
 * [Estonian orthophoto](https://geoportaal.maaamet.ee/eng/Spatial-Data/Orthophotos-p309.html) (from [Estonian Land Board](https://maaamet.ee/en))
+
+  ![Estonian orthophoto](images/otepaa_orthophoto.jpg)
 * Google satellite photo (from [Google Maps Static API](https://developers.google.com/maps/documentation/maps-static/start))
+
+  ![Google satellite photo](images/otepaa_satellite.jpg)
 * Google road map (from [Google Maps Static API](https://developers.google.com/maps/documentation/maps-static/start))
+
+  ![Google road map](images/otepaa_roadmap.jpg)
+* Google hybrid map (from [Google Maps Static API](https://developers.google.com/maps/documentation/maps-static/start))
+
+  ![Google hybrid map](images/otepaa_hybrid.jpg)
 
 ### Description of AI technology
 
