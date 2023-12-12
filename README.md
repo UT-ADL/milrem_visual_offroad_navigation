@@ -66,17 +66,55 @@ Following types of maps were acquired:
 
   ![Google hybrid map](images/otepaa_hybrid.jpg)
 
+Further cleaning was applied to the data with following sections removed:
+* Missing odometry data
+* Big change in position: >1.0m per timestep
+* Low velocity: <0.05 m/s
+* High velocity: >2.5 m/s
+* Model prediction errors were analyzed
+* Bad trajectories
+* Missing or bad camera images
+* 90° turns
+* Climbing over fallen trees
+
+Altogether this resulted in 94.4 km of trajectories used for training.
+
+In addition the dataset for local planner was combined with [RECON dataset](https://sites.google.com/view/recon-robot/dataset) of 40 hours of autonomously collected trajectories.
+
 ### Description of AI technology
 
-/some diagram of interaction between local and global planner?/
+The system makes use of two neural networks: local planner and global planner.
 
-The system makes use of two neural networks: local planner and global planner. 
-* **Local planner** takes camera image and predicts next waypoints, where the robot can drive without hitting obstacles. This model is trained using camera images and visual odometry.
-* **Global planner** takes the waypoints proposed by local planner and estimates which of them takes fastest to the final goal. This model is trained using maps and GPS trajectories.
+**Local planner** takes a camera image and predicts next waypoints, where the robot can drive without hitting obstacles. 
+* Inputs to the model are:
+  * Current camera image
+  * Past 5 camera images
+  * Goal image
+* Outputs of the model are:
+  * Trajectory of 5 waypoints
+  * Temporal distance to the goal
 
-These two models work in coordination to overcome the outdated maps and inaccurate GPS problem:
-* as the local planner does not propose waypoints that collide with obstacles, the robot never gets stuck,
-* as the global planner picks waypoints which are closer to the final destination, it tends to move towards final goal, even if the GPS positioning is wrong or map is outdated.
+The local planner is trained using camera images and visual odometry.
+
+![Local planner](images/local_planner.jpg)
+
+**Global planner** takes the waypoints proposed by the local planner and estimates which of them takes fastest to the final goal.
+
+* Inputs to the model are:
+  * Overhead map
+  * Current location
+  * Goal location
+  * Candidate waypoint(s)
+* Outputs of the model are:
+  * Probability that the waypoint is on the path from current location to goal
+
+The global planner is trained using maps and GPS trajectories.
+
+![Global planner](images/global_planner.jpg)
+
+These two models work in coordination to handle outdated maps and inaccurate GPS:
+* as long as the local planner proposes valid waypoints the robot never collides with obstacles,
+* as the global planner picks waypoints which are closer to the final destination, it tends to move towards the final goal, even if the GPS positioning is wrong or the map is outdated.
 
 ### Results of validation
 
