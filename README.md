@@ -183,19 +183,36 @@ Following videos show a simulation where the robot proposes a number of random w
 
 [![GNM finetuned](https://img.youtube.com/vi/wI3Tavbgs5M/hqdefault.jpg)](https://youtu.be/wI3Tavbgs5M)
 
-### Technical architecture
+#### Putting it all together
 
-/copy-paste network architectures from the papers?/
+Following video shows off-policy evaluation of the whole system on recorded session:
+[![GNM finetuned](https://img.youtube.com/vi/Y_p7K6vJmA8/hqdefault.jpg)](https://youtu.be/Y_p7K6vJmA8)
+
+On-policy evaluation of the whole system was not possible due to some technical difficulties with the GNSS sensor and due to winter making the use of the models pointless, because they were mainly trained on summer data.
+
+### Technical architecture
 
 For local planner following network architectures were tried:
 * VAE (as in the original [ViKiNG paper](https://sites.google.com/view/viking-release))
+
+  ![VAE](images/vae.jpg)
 * [GNM](https://sites.google.com/view/drive-any-robot)
+
+  ![GNM](images/gnm.jpg)
 * [ViNT](https://general-navigation-models.github.io/vint/index.html)
+
+  ![ViNT](images/vint.jpg)
 * [NoMaD](https://general-navigation-models.github.io/nomad/index.html)
 
+  ![NoMaD](images/nomad.jpg)
+
 For global planner following network architectures were tried:
-* MLP (as in the original [ViKiNG paper](https://sites.google.com/view/viking-release))
+* contrastive MLP (as in the original [ViKiNG paper](https://sites.google.com/view/viking-release))
+
+  ![contrastive MLP](images/contrastive.jpg)
 * [U-Net](https://arxiv.org/abs/1505.04597)
+
+  ![U-Net](images/unet.jpg)
 
 ### Potential areas of use
 
