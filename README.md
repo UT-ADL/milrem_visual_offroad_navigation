@@ -221,10 +221,17 @@ The working solution could be used in any area that needs navigation in unstruct
 * agriculture,
 * rescue.
 
-The particular dataset collected in this project will be used to create visual navigation benchmark and regular international robot orienteering competition. Such competition will make novel solutions and international talent available to Milrem Robotics.
+The dataset collected in this project will also be used to create a visual navigation benchmark and international robot orienteering competition. Such competition will make novel solutions and international talent accessible to Milrem Robotics.
 
 ### Lessons learned
 
+For training the local planner the dataset seemed insufficient or contained too simple trajectories (moving mostly forward). Even after combining our data with RECON dataset or fine-tuning existing models, the results were inconclusive - sometimes the fine-tuned model was performing better, sometimes worse than the original. The original general navigation models were also unreliable, they were not always able to avoid the obstacles.
+
+More work is needed to make visual navigation reliable. Alternative model outputs could be considered, e.g. predicting free space instead of trajectories and proposing waypoints from that free space. Also collection of more explorative data directly with the robot might be necessary, as in the ViKiNG paper they used mainly automatically collected exploratory data (30 hours) and relatively few expert trajectories (12 hours). In our case all of the data was expert trajectories.
+
+Global planner trained much better and was able to estimate reasonably well the recommended path between two points. We also observed different behavior for different map modalities, e.g. base map and orthophotos. More work is needed to reduce the artifacts produced by the fully convolutional network and some map modalities might need further tuning.
+
+Final takeaways:
 * Training neural networks in 2023 is still hard.
 * Dataset curation is non-trivial and less documented than model training.
 * Should use (or fine-tune) pre-trained models whenever available.
@@ -232,10 +239,9 @@ The particular dataset collected in this project will be used to create visual n
 
 ### Description of User Interface 
 
-/add visual image/
+![UI](https://img.youtube.com/vi/Y_p7K6vJmA8/0.jpg)
 
 * The screen shows current camera image and proposed trajectories.
 * Top right shows the goal image.
-* Bottom right shows the map and probability map (the recommended path from current position to goal)
-* Bottom left show top-down view of the trajectory.
-* Top left shows the robot command.
+* Bottom right shows the map and probability map (the path from current position to goal). Proposed waypoint colors match the proposed trajectory colors. 
+* The left pane shows the robot command.
