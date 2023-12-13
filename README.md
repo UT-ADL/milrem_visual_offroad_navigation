@@ -26,7 +26,7 @@ The goal of using passive sensors means that the camera is the primary sensor. T
 
 We set ourselves a goal to collect 50 hours of data consisting of 150 km of trajectories. This was inspired by the ViKiNG paper having 42 hours of training data. Time-wise this goal was achieved, distance-wise slightly less data was collected, 104 km.
 
-In addition to collecting the data we wanted to also validate if it is usable for training the neural networks. We actually went further than that by not only training the networks, but also implementing a proof-of-concept navigation system on [Jackal robot](https://clearpathrobotics.com/jackal-small-unmanned-ground-vehicle/).
+In addition to collecting the data we wanted to validate if it is usable for training the neural networks. We actually went further than that by not only training the networks, but also implementing a proof-of-concept navigation system on [Jackal robot](https://clearpathrobotics.com/jackal-small-unmanned-ground-vehicle/).
 
 ### Data sources
 
@@ -46,27 +46,33 @@ Four different types of data was collected:
 1. camera images,
 2. visual odometry (trajectories derived from camera movement),
 3. GPS trajectories,
-4. maps.
+4. georeferenced maps.
 
-Following types of maps were acquired:
+Following types of maps were acquired and georeferenced:
 * orienteering maps (usually from organizers, sometimes from [Estonian O-Map](https://okaart.osport.ee/))
 
   ![orienteering map](images/otepaa_orienteering.jpg)
+
 * [Estonian base map](https://geoportaal.maaamet.ee/eng/Spatial-Data/Topographic-Maps/Estonian-Basic-Map-1-10-000-p306.html) (from [Estonian Land Board](https://maaamet.ee/en))
 
   ![Estonian base map](images/otepaa_base.jpg)
+
 * [Estonian base map](https://geoportaal.maaamet.ee/eng/Spatial-Data/Topographic-Maps/Estonian-Basic-Map-1-10-000-p306.html) with elevation (from [Estonian Land Board](https://maaamet.ee/en))
 
   ![Estonian base map with elevation](images/otepaa_baseelev.jpg)
+
 * [Estonian orthophoto](https://geoportaal.maaamet.ee/eng/Spatial-Data/Orthophotos-p309.html) (from [Estonian Land Board](https://maaamet.ee/en))
 
   ![Estonian orthophoto](images/otepaa_orthophoto.jpg)
+
 * Google satellite photo (from [Google Maps Static API](https://developers.google.com/maps/documentation/maps-static/start))
 
   ![Google satellite photo](images/otepaa_satellite.jpg)
+
 * Google road map (from [Google Maps Static API](https://developers.google.com/maps/documentation/maps-static/start))
 
   ![Google road map](images/otepaa_roadmap.jpg)
+
 * Google hybrid map (from [Google Maps Static API](https://developers.google.com/maps/documentation/maps-static/start))
 
   ![Google hybrid map](images/otepaa_hybrid.jpg)
@@ -93,7 +99,7 @@ The system makes use of two neural networks: local planner and global planner.
 **Local planner** takes a camera image and predicts next waypoints, where the robot can drive without hitting obstacles. 
 * Inputs to the model are:
   * Current camera image
-  * Past 5 camera images
+  * Past 5 camera images for context
   * Goal image
 * Outputs of the model are:
   * Trajectory of 5 waypoints
@@ -135,7 +141,7 @@ For local planner following network architectures were considered:
 
 VAE model was trained from scratch, all other models were used with pre-trained weights from Berkeley group. GNM model was additionally fine-tuned with our own dataset.
 
-The models were tested both off-policy and on-policy. Off-policy means that the model was applied to recorded data, the model's actions were just visualized, but not taken into account. On-policy means that the model’s actions were actually taken on the robot.
+The models were tested both off-policy and on-policy. Off-policy means that the model was applied to recorded data, the model's actions were just visualized, but not actuated. On-policy means that the model’s actions were actually actuated on the robot.
 
 **Off-policy results**
 
@@ -157,7 +163,7 @@ The models were tested both off-policy and on-policy. Off-policy means that the 
 
 **On-policy results**
 
-We created a fixed course in Delta park with goal images every 2, 5 or 10 meters and measured the goal success rate at each interval. Basically it shows how well the model can move towards the goal image and detect if it has reached the goal image. The operator intervened when the robot was going completely off the path and guided it back to the track.
+We created a fixed course in Delta park with goal images every 2, 5 or 10 meters and measured the goal success rate for each interval. Basically it shows how well the model can move towards the goal image and detect if it has reached the goal image. The operator intervened when the robot was going completely off the path and guided it back to the track. Sometimes the robot failed to detect the goal, but was driving in the right direction and successfully recognized the subsequent goal.
 
 Success rate with 2m intervals:
 | Model | Number of goal images | Number of interventions | Success rate |
@@ -201,12 +207,15 @@ For local planner following network architectures were tried:
 * VAE (as in the original [ViKiNG paper](https://sites.google.com/view/viking-release))
 
   ![VAE](images/vae.jpg)
+
 * [GNM](https://sites.google.com/view/drive-any-robot)
 
   ![GNM](images/gnm.jpg)
+
 * [ViNT](https://general-navigation-models.github.io/vint/index.html)
 
   ![ViNT](images/vint.jpg)
+
 * [NoMaD](https://general-navigation-models.github.io/nomad/index.html)
 
   ![NoMaD](images/nomad.jpg)
@@ -215,6 +224,7 @@ For global planner following network architectures were tried:
 * contrastive MLP (as in the original [ViKiNG paper](https://sites.google.com/view/viking-release))
 
   ![contrastive MLP](images/contrastive.jpg)
+
 * [U-Net](https://arxiv.org/abs/1505.04597)
 
   ![U-Net](images/unet.jpg)
@@ -230,9 +240,9 @@ The dataset collected in this project will also be used to create a visual navig
 
 ### Lessons learned
 
-For training the local planner the dataset seemed insufficient or contained too simple trajectories (moving mostly forward). Even after combining our data with RECON dataset or fine-tuning existing models, the results were inconclusive - sometimes the fine-tuned model was performing better, sometimes worse than the original. The original general navigation models were also unreliable, they were not always able to avoid the obstacles.
+For training the local planner the dataset seemed insufficient or contained too simple trajectories (moving mostly forward). Even after combining our data with RECON dataset or fine-tuning existing models, the results were inconclusive - sometimes the fine-tuned model was performing better, sometimes worse than the original. The original general navigation models were also unreliable, they were not always able to avoid the obstacles. More work is needed to make visual navigation reliable.
 
-More work is needed to make visual navigation reliable. Alternative model outputs could be considered, e.g. predicting free space instead of trajectories and proposing waypoints from that free space. Also collection of more explorative data directly with the robot might be necessary, as in the ViKiNG paper they used mainly automatically collected exploratory data (30 hours) and relatively few expert trajectories (12 hours). In our case all of the data was expert trajectories.
+Alternative model outputs could be considered, e.g. predicting free space instead of trajectories and proposing waypoints from that free space. Also collection of more explorative data directly with the robot might be necessary, as in the ViKiNG paper they used mainly automatically collected exploratory data (30 hours) and relatively few expert trajectories (12 hours). In our case all of the data was expert trajectories.
 
 Global planner trained much better and was able to estimate reasonably well the recommended path between two points. We also observed different behavior for different map modalities, e.g. base map and orthophotos. More work is needed to reduce the artifacts produced by the fully convolutional network and some map modalities might need further tuning.
 
