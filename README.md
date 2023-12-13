@@ -37,6 +37,11 @@ Data collection was performed with golf trolley fitted with following sensors:
 * [Xsens MTI-710G](https://www.movella.com/products/sensor-modules/xsens-mti-g-710-gnss-ins) GNSS/INS device
 * 3x [GoPro cameras](https://gopro.com/en/us/shop/cameras/hero12-black/CHDHX-121-master.html) at three different heights
 
+![trolley1](images/trolley1.jpg)
+![trolley2](images/trolley2.jpg)
+![trolley3](images/trolley3.jpg)
+![trolley4](images/trolley4.jpg)
+
 Four different types of data was collected:
 1. camera images,
 2. visual odometry (trajectories derived from camera movement),
