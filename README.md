@@ -118,15 +118,70 @@ These two models work in coordination to handle outdated maps and inaccurate GPS
 
 ### Results of validation
 
-/add some tables, videos with results, move current text to Lessons learned/
+#### Local planner
 
-For training the local planner the dataset seemed insufficient or contained too simple trajectories (moving mostly forward). We experimented with following options:
-* combining our collected dataset with [RECON dataset](https://sites.google.com/view/recon-robot/dataset)
-* fine-tuning existing general navigation models, i.e. [GNM](https://sites.google.com/view/drive-any-robot), [ViNT](https://general-navigation-models.github.io/vint/index.html) and [NoMaD](https://general-navigation-models.github.io/nomad/index.html)
+For local planner following network architectures were considered:
+| Model | Pretrained weights | Trained or finetuned | On-policy tested | Generative | Waypoint proposal method |
+|-------|--------------------|----------------------|------------------|------------|--------------------------|
+| [VAE](https://sites.google.com/view/viking-release) | - | + | + | + | Sampling from latent representation |
+| [GNM](https://sites.google.com/view/drive-any-robot) | + | + | + | - | Cropping the current observation |
+| [ViNT](https://general-navigation-models.github.io/vint/index.html)  | + | - | + | + | Goal image diffusion |
+| [NoMaD](https://general-navigation-models.github.io/nomad/index.html) | + | - | - | + | Trajectory diffusion |
 
-The results were inconculsive, sometimes the fine-tuned model was performing better, sometimes worse. The original general navigation models were also unreliable, they were not always able to avoid the obstacles. More work is needed to make visual navigation reliable. Alternative model outputs could be considered, e.g. predicting free space instead of trajectories and proposing waypoints from that free space. Also collection of more explorative data directly with robot might be necessary.
+VAE model was trained from scratch, all other models were used with pre-trained weights from Berkeley group. GNM model was additionally fine-tuned with our own dataset.
 
-Global planner trained much better and was able to estimate reasonably well the recommended path between two points. We also observed different behavior for different map modalities, e.g. base map and orthophotos. More work is needed to reduce the artifacts produced by the fully convolutional network and some map modalities might need further tuning.
+The models were tested both off-policy and on-policy. Off-policy means that the model was applied to recorded data, the model's actions were just visualized, but not taken into account. On-policy means that the model’s actions were actually taken on the robot.
+
+**Off-policy results**
+
+* GNM finetuned
+
+  [![GNM finetuned](https://img.youtube.com/vi/PeYGA85I2FI/hqdefault.jpg)](https://youtu.be/PeYGA85I2FI)
+
+* ViNT
+
+  [![ViNT](https://img.youtube.com/vi/pnftnew_JVo/hqdefault.jpg)](https://youtu.be/pnftnew_JVo)
+
+* NoMaD with moving goal
+
+  [![NoMaD with moving goal](https://img.youtube.com/vi/KI7kkKAnis8/hqdefault.jpg)](https://youtu.be/KI7kkKAnis8)
+
+* NoMaD with fixed goal
+
+  [![NoMaD with fixed goal](https://img.youtube.com/vi/xCyGxyZ0rtA/hqdefault.jpg)](https://youtu.be/xCyGxyZ0rtA)
+
+**On-policy results**
+
+We created a fixed course in Delta park with goal images every 2, 5 or 10 meters and measured the goal success rate at each interval. Basically it shows how well the model can move towards the goal image and detect if it has reached the goal image. The operator intervened when the robot was going completely off the path and guided it back to the track.
+
+Success rate with 2m intervals:
+| Model | Number of goal images | Number of interventions | Success rate |
+|-------|-----------------------|-------------------------|--------------|
+| GNM | 38 | 1 | 86.84 |
+| GNM_finetuned | 38 | 0 | 81.58 |
+
+Success rate with 5m intervals:
+| Model | Number of goal images | Number of interventions | Success rate |
+|-------|-----------------------|-------------------------|--------------|
+| GNM_finetuned | 17 | 7 | 100 |
+| ViNT | 17 | 7 | 100 |
+
+Success rate with 10m intervals:
+| Model | Number of goal images | Number of interventions | Success rate |
+|-------|-----------------------|-------------------------|--------------|
+| ViNT | 8 | 9 | 100 |
+
+#### Global planner
+
+For global planner following network architectures were considered:
+* [contrastive MLP](https://sites.google.com/view/viking-release)
+* [U-Net](https://arxiv.org/abs/1505.04597)
+
+As the U-Net approach worked much better, the contrastive approach was abandoned. Most of the experimentation was done with the base map with elevation. 
+
+Following videos show a simulation where the robot proposes a number of random waypoints and then moves towards the one that has the highest probability, i.e. it is on-policy, but simulated.
+
+[![GNM finetuned](https://img.youtube.com/vi/wI3Tavbgs5M/hqdefault.jpg)](https://youtu.be/wI3Tavbgs5M)
 
 ### Technical architecture
 
