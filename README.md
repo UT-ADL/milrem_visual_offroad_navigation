@@ -18,6 +18,10 @@ Milrem UGV needs to be able to navigate
 
 System that satisfies the above goals was proposed in the [ViKiNG paper](https://sites.google.com/view/viking-release) by Dhruv Shah and Sergey Levine from University of California, Berkeley. The paper demonstrated vision-based kilometer-scale navigation with geographical hints in semi-structured urban environments, including parks. The goal of this project was to extend the ViKiNG solution to unstructured off-road environments, for example forests.
 
+| | | |
+|-|-|-|
+| ![forest1](images/forest1.jpg) | ![forest2](images/forest2.jpg) | ![forest3](images/forest3.jpg) |
+
 ## Activities and results of demonstration project
 
 ### Challenge adressed
@@ -37,10 +41,9 @@ Data collection was performed with golf trolley fitted with following sensors:
 * [Xsens MTI-710G](https://www.movella.com/products/sensor-modules/xsens-mti-g-710-gnss-ins) GNSS/INS device
 * 3x [GoPro cameras](https://gopro.com/en/us/shop/cameras/hero12-black/CHDHX-121-master.html) at three different heights
 
-![trolley1](images/trolley1.jpg)
-![trolley2](images/trolley2.jpg)
-![trolley3](images/trolley3.jpg)
-![trolley4](images/trolley4.jpg)
+| | | | |
+|-|-|-|-|
+| ![trolley1](images/trolley1.jpg) | ![trolley2](images/trolley2.jpg) | ![trolley3](images/trolley3.jpg) | ![trolley4](images/trolley4.jpg) |
 
 Four different types of data was collected:
 1. camera images,
@@ -49,33 +52,16 @@ Four different types of data was collected:
 4. georeferenced maps.
 
 Following types of maps were acquired and georeferenced:
-* orienteering maps (usually from organizers, sometimes from [Estonian O-Map](https://okaart.osport.ee/))
 
-  ![orienteering map](images/otepaa_orienteering.jpg)
-
-* [Estonian base map](https://geoportaal.maaamet.ee/eng/Spatial-Data/Topographic-Maps/Estonian-Basic-Map-1-10-000-p306.html) (from [Estonian Land Board](https://maaamet.ee/en))
-
-  ![Estonian base map](images/otepaa_base.jpg)
-
-* [Estonian base map](https://geoportaal.maaamet.ee/eng/Spatial-Data/Topographic-Maps/Estonian-Basic-Map-1-10-000-p306.html) with elevation (from [Estonian Land Board](https://maaamet.ee/en))
-
-  ![Estonian base map with elevation](images/otepaa_baseelev.jpg)
-
-* [Estonian orthophoto](https://geoportaal.maaamet.ee/eng/Spatial-Data/Orthophotos-p309.html) (from [Estonian Land Board](https://maaamet.ee/en))
-
-  ![Estonian orthophoto](images/otepaa_orthophoto.jpg)
-
-* Google satellite photo (from [Google Maps Static API](https://developers.google.com/maps/documentation/maps-static/start))
-
-  ![Google satellite photo](images/otepaa_satellite.jpg)
-
-* Google road map (from [Google Maps Static API](https://developers.google.com/maps/documentation/maps-static/start))
-
-  ![Google road map](images/otepaa_roadmap.jpg)
-
-* Google hybrid map (from [Google Maps Static API](https://developers.google.com/maps/documentation/maps-static/start))
-
-  ![Google hybrid map](images/otepaa_hybrid.jpg)
+| Map type | Example image |
+| -------- | ------------- |
+| orienteering maps (usually from organizers, sometimes from [Estonian O-Map](https://okaart.osport.ee/)) | ![orienteering map](images/otepaa_orienteering.jpg) |
+| [Estonian base map](https://geoportaal.maaamet.ee/eng/Spatial-Data/Topographic-Maps/Estonian-Basic-Map-1-10-000-p306.html) (from [Estonian Land Board](https://maaamet.ee/en)) | ![Estonian base map](images/otepaa_base.jpg) |
+| [Estonian base map](https://geoportaal.maaamet.ee/eng/Spatial-Data/Topographic-Maps/Estonian-Basic-Map-1-10-000-p306.html) with elevation (from [Estonian Land Board](https://maaamet.ee/en)) |  ![Estonian base map with elevation](images/otepaa_baseelev.jpg) |
+| [Estonian orthophoto](https://geoportaal.maaamet.ee/eng/Spatial-Data/Orthophotos-p309.html) (from [Estonian Land Board](https://maaamet.ee/en)) | ![Estonian orthophoto](images/otepaa_orthophoto.jpg) |
+| Google satellite photo (from [Google Maps Static API](https://developers.google.com/maps/documentation/maps-static/start)) | ![Google satellite photo](images/otepaa_satellite.jpg) |
+| Google road map (from [Google Maps Static API](https://developers.google.com/maps/documentation/maps-static/start)) | ![Google road map](images/otepaa_roadmap.jpg) |
+| Google hybrid map (from [Google Maps Static API](https://developers.google.com/maps/documentation/maps-static/start)) | ![Google hybrid map](images/otepaa_hybrid.jpg) |
 
 Further cleaning was applied to the data with following sections removed:
 * Missing odometry data
@@ -97,13 +83,10 @@ In addition the dataset for local planner was combined with [RECON dataset](http
 The system makes use of two neural networks: local planner and global planner.
 
 **Local planner** takes a camera image and predicts next waypoints, where the robot can drive without hitting obstacles. 
-* Inputs to the model are:
-  * Current camera image
-  * Past 5 camera images for context
-  * Goal image
-* Outputs of the model are:
-  * Trajectory of 5 waypoints
-  * Temporal distance to the goal
+
+| Inputs to the model | Outputs of the model |
+| ------------------- | -------------------- |
+| <ul><li>Current camera image</li><li>Past 5 camera images for context</li><li>Goal image</li></ul> | <ul><li>Trajectory of 5 waypoints</li><li>Temporal distance to the goal</li></ul> |
 
 The local planner is trained using camera images and visual odometry.
 
@@ -111,13 +94,9 @@ The local planner is trained using camera images and visual odometry.
 
 **Global planner** takes the waypoints proposed by the local planner and estimates which of them takes fastest to the final goal.
 
-* Inputs to the model are:
-  * Overhead map
-  * Current location
-  * Goal location
-  * Candidate waypoint(s)
-* Outputs of the model are:
-  * Probability that the waypoint is on the path from current location to goal
+| Inputs to the model | Outputs of the model |
+| ------------------- | -------------------- |
+| <ul><li>Overhead map</li><li>Current location</li><li>Goal location</li></ul> | <ul><li>Probabilities whether each map pixel is<br>on the path from current location to goal</li></ul> |
 
 The global planner is trained using maps and GPS trajectories.
 
@@ -145,21 +124,12 @@ The models were tested both off-policy and on-policy. Off-policy means that the 
 
 **Off-policy results**
 
-* GNM finetuned
-
-  [![GNM finetuned](https://img.youtube.com/vi/PeYGA85I2FI/hqdefault.jpg)](https://youtu.be/PeYGA85I2FI)
-
-* ViNT
-
-  [![ViNT](https://img.youtube.com/vi/pnftnew_JVo/hqdefault.jpg)](https://youtu.be/pnftnew_JVo)
-
-* NoMaD with moving goal
-
-  [![NoMaD with moving goal](https://img.youtube.com/vi/KI7kkKAnis8/hqdefault.jpg)](https://youtu.be/KI7kkKAnis8)
-
-* NoMaD with fixed goal
-
-  [![NoMaD with fixed goal](https://img.youtube.com/vi/xCyGxyZ0rtA/hqdefault.jpg)](https://youtu.be/xCyGxyZ0rtA)
+| Model | Video |
+| ----- | ----- |
+| GNM finetuned | [![GNM finetuned](https://img.youtube.com/vi/PeYGA85I2FI/hqdefault.jpg)](https://youtu.be/PeYGA85I2FI) |
+| ViNT | [![ViNT](https://img.youtube.com/vi/pnftnew_JVo/hqdefault.jpg)](https://youtu.be/pnftnew_JVo) |
+| NoMaD with moving goal | [![NoMaD with moving goal](https://img.youtube.com/vi/KI7kkKAnis8/hqdefault.jpg)](https://youtu.be/KI7kkKAnis8) |
+| NoMaD with fixed goal | [![NoMaD with fixed goal](https://img.youtube.com/vi/xCyGxyZ0rtA/hqdefault.jpg)](https://youtu.be/xCyGxyZ0rtA) |
 
 **On-policy results**
 
@@ -182,6 +152,13 @@ Success rate with 10m intervals:
 |-------|-----------------------|-------------------------|--------------|
 | ViNT | 8 | 9 | 100 |
 
+Following videos show on-policy behavior:
+
+| Location | Video |
+| -------- | ----- |
+| Delta office | [![Delta office on-policy](https://img.youtube.com/vi/PZ7-ZJ6SLpA/hqdefault.jpg)](https://youtu.be/PZ7-ZJ6SLpA) |
+| Delta park | [![Delta park on-policy](https://img.youtube.com/vi/Cq9TydxzxqU/hqdefault.jpg)](https://youtu.be/Cq9TydxzxqU) |
+
 #### Global planner
 
 For global planner following network architectures were considered:
@@ -192,12 +169,16 @@ As the U-Net approach worked much better, the contrastive approach was abandoned
 
 Following videos show a simulation where the robot proposes a number of random waypoints and then moves towards the one that has the highest probability, i.e. it is on-policy, but simulated.
 
-[![GNM finetuned](https://img.youtube.com/vi/wI3Tavbgs5M/hqdefault.jpg)](https://youtu.be/wI3Tavbgs5M)
+| Location | Video |
+| -------- | ----- |
+| Ihaste | [![Ihaste](https://img.youtube.com/vi/wI3Tavbgs5M/hqdefault.jpg)](https://youtu.be/wI3Tavbgs5M) |
+| Kärgandi | [![Kärgandi](https://img.youtube.com/vi/o82MFpMYh5c/hqdefault.jpg)](https://youtu.be/o82MFpMYh5c) |
 
 #### Putting it all together
 
 Following video shows off-policy evaluation of the whole system on recorded session:
-[![GNM finetuned](https://img.youtube.com/vi/Y_p7K6vJmA8/hqdefault.jpg)](https://youtu.be/Y_p7K6vJmA8)
+
+[![Delta off-policy](https://img.youtube.com/vi/Y_p7K6vJmA8/hqdefault.jpg)](https://youtu.be/Y_p7K6vJmA8)
 
 On-policy evaluation of the whole system was not possible due to some technical difficulties with the GNSS sensor and due to winter making the use of the models pointless, because they were mainly trained on summer data.
 
