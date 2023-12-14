@@ -11,10 +11,10 @@
 The goal of the project is to collect and validate dataset for vision-based off-road navigation with geographical hints.
 
 Milrem UGV needs to be able to navigate
-1. in unstructured environment (no buildings, roads or other landmarks),
-2. with passive sensors (using only camera and GNSS, active sensors make the UGV discoverable to the enemy),
-3. with no prior map or with outdated map,
-4. with unreliable satellite positioning signals.
+* in unstructured environment (no buildings, roads or other landmarks),
+* with passive sensors (using only camera and GNSS, active sensors make the UGV discoverable to the enemy),
+* with no prior map or with outdated map,
+* with unreliable satellite positioning signals.
 
 System that satisfies the above goals was proposed in the [ViKiNG paper](https://sites.google.com/view/viking-release) by Dhruv Shah and Sergey Levine from University of California, Berkeley. The paper demonstrated vision-based kilometer-scale navigation with geographical hints in semi-structured urban environments, including parks. The goal of this project was to extend the ViKiNG solution to unstructured off-road environments, for example forests.
 
@@ -88,23 +88,23 @@ The system makes use of two neural networks: local planner and global planner.
 | ------------------- | -------------------- |
 | <ul><li>Current camera image</li><li>Past 5 camera images for context</li><li>Goal image</li></ul> | <ul><li>Trajectory of 5 waypoints</li><li>Temporal distance to the goal</li></ul> |
 
-The local planner is trained using camera images and visual odometry.
+The local planner is trained using camera images and visual odometry. The goal image was taken as an image from fixed timesteps from the future. Temporal distance to the goal represents the number of timesteps to the goal image.
 
 ![Local planner](images/local_planner.jpg)
 
-**Global planner** takes the waypoints proposed by the local planner and estimates which of them takes fastest to the final goal.
+**Global planner** takes the waypoints proposed by the local planner and estimates which of them are likely on the path to the final goal.
 
 | Inputs to the model | Outputs of the model |
 | ------------------- | -------------------- |
 | <ul><li>Overhead map</li><li>Current location</li><li>Goal location</li></ul> | <ul><li>Probabilities whether each map pixel is<br>on the path from current location to goal</li></ul> |
 
-The global planner is trained using maps and GPS trajectories.
+The global planner is trained using georeferenced maps and GPS trajectories - given two points on the trajectory, all points in-between were marked as high-probability points.
 
 ![Global planner](images/global_planner.jpg)
 
 These two models work in coordination to handle outdated maps and inaccurate GPS:
 * as long as the local planner proposes valid waypoints the robot never collides with obstacles,
-* as the global planner picks waypoints which are closer to the final destination, it tends to move towards the final goal, even if the GPS positioning is wrong or the map is outdated.
+* as the global planner picks waypoints which are on the path to the final destination, it tends to move towards the final goal, even if the GPS positioning is wrong or the map is outdated.
 
 ### Results of validation
 
@@ -124,8 +124,11 @@ The models were tested both off-policy and on-policy. Off-policy means that the 
 
 **Off-policy results**
 
+In the videos green trajectory represents ground truth, red trajectory represents goal-conditioned predicted trajectory (many in case of NoMaD), blue represents sampled possible trajectories.
+
 | Model | Video |
 | ----- | ----- |
+| VAE | [![VAE](https://img.youtube.com/vi/9J8xiIbLHiM/hqdefault.jpg)](https://youtu.be/9J8xiIbLHiM) |
 | GNM finetuned | [![GNM finetuned](https://img.youtube.com/vi/PeYGA85I2FI/hqdefault.jpg)](https://youtu.be/PeYGA85I2FI) |
 | ViNT | [![ViNT](https://img.youtube.com/vi/pnftnew_JVo/hqdefault.jpg)](https://youtu.be/pnftnew_JVo) |
 | NoMaD with moving goal | [![NoMaD with moving goal](https://img.youtube.com/vi/KI7kkKAnis8/hqdefault.jpg)](https://youtu.be/KI7kkKAnis8) |
@@ -172,7 +175,16 @@ Following videos show a simulation where the robot proposes a number of random w
 | Location | Video |
 | -------- | ----- |
 | Ihaste | [![Ihaste](https://img.youtube.com/vi/wI3Tavbgs5M/hqdefault.jpg)](https://youtu.be/wI3Tavbgs5M) |
-| Kärgandi | [![Kärgandi](https://img.youtube.com/vi/o82MFpMYh5c/hqdefault.jpg)](https://youtu.be/o82MFpMYh5c) |
+| Kärgandi, sticking to the road | [![Kärgandi](https://img.youtube.com/vi/o82MFpMYh5c/hqdefault.jpg)](https://youtu.be/o82MFpMYh5c) |
+| Annelinn, avoidance of houses | [![Kärgandi](https://img.youtube.com/vi/5qfriy7qhW0/hqdefault.jpg)](https://youtu.be/5qfriy7qhW0) |
+
+Following videos shows different behavior for different map modalities.
+
+| Location | Video |
+| -------- | ----- |
+| Base map - sticking to the road | [![Ihaste](https://img.youtube.com/vi/7HMwVmDzGak/hqdefault.jpg)](https://youtu.be/7HMwVmDzGak) |
+| Road map - going straight (no context) | [![Ihaste](https://img.youtube.com/vi/-EbNeVx_BrE/hqdefault.jpg)](https://youtu.be/-EbNeVx_BrE) |
+| Orthophoto - mostly sticking to the road | [![Ihaste](https://img.youtube.com/vi/_4irqiPSgBM/hqdefault.jpg)](https://youtu.be/_4irqiPSgBM) |
 
 #### Putting it all together
 
