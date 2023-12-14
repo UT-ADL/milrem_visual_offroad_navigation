@@ -139,15 +139,15 @@ For on-policy testing we recorded a fixed route, took goal images at fixed inter
 
 ##### Off-policy results
 
-The videos below show models applied to pre-recorded data. In the videos green trajectory represents ground truth, red trajectory represents goal-conditioned predicted trajectory (many in case of NoMaD), blue represents sampled possible trajectories.
+The videos below show models applied to pre-recorded data. In the videos green trajectory represents ground truth, red trajectory represents goal-conditioned predicted trajectory (many in case of NoMaD), blue represents sampled possible trajectories (in case of VAE).
 
 | Model | Video |
 | ----- | ----- |
 | VAE | [![VAE](https://img.youtube.com/vi/9J8xiIbLHiM/hqdefault.jpg)](https://youtu.be/9J8xiIbLHiM) |
 | GNM finetuned | [![GNM finetuned](https://img.youtube.com/vi/PeYGA85I2FI/hqdefault.jpg)](https://youtu.be/PeYGA85I2FI) |
 | ViNT | [![ViNT](https://img.youtube.com/vi/pnftnew_JVo/hqdefault.jpg)](https://youtu.be/pnftnew_JVo) |
-| NoMaD with moving goal | [![NoMaD with moving goal](https://img.youtube.com/vi/KI7kkKAnis8/hqdefault.jpg)](https://youtu.be/KI7kkKAnis8) |
-| NoMaD with fixed goal | [![NoMaD with fixed goal](https://img.youtube.com/vi/xCyGxyZ0rtA/hqdefault.jpg)](https://youtu.be/xCyGxyZ0rtA) |
+| NoMaD with goal images at fixed intervals | [![NoMaD with moving goal](https://img.youtube.com/vi/KI7kkKAnis8/hqdefault.jpg)](https://youtu.be/KI7kkKAnis8) |
+| NoMaD with one fixed goal (exploratory mode) | [![NoMaD with fixed goal](https://img.youtube.com/vi/xCyGxyZ0rtA/hqdefault.jpg)](https://youtu.be/xCyGxyZ0rtA) |
 
 ##### On-policy results indoors
 
@@ -162,7 +162,7 @@ We recorded a fixed route in Delta office with goal images every 1 or 2 meters a
 | GNM finetuned | 2m | 15 | 0 | 93.33 | [video](https://drive.google.com/file/d/1kHIW5LfpA2eoPawgp5HJprsbevPLBXgg/view?usp=drive_link) |
 | ViNT | 2m | 15 | 0 | 93.33 | [video](https://drive.google.com/file/d/19egUyGQgr0efxUop5Jl9mVbd9vws7GYe/view?usp=drive_link) |
 
-Example video of top-performing model (GNM-finetuned):
+Example video of top-performing model (GNM-finetuned) at 4X speed:
 
 [![Delta office on-policy](https://img.youtube.com/vi/PZ7-ZJ6SLpA/hqdefault.jpg)](https://youtu.be/PZ7-ZJ6SLpA)
 
@@ -178,7 +178,7 @@ We recorded a fixed route in Delta park with goal images every 2, 5 or 10 meters
 | ViNT | 5m | 17 | 7 | 100 | [video](https://drive.google.com/file/d/1lvwFo9fWuyTr2sdfYbFnmEqpWYJFSFrI/view?usp=drive_link) |
 | ViNT | 10m | 8 | 9 | 100 | [video](https://drive.google.com/file/d/1xMCT0IKqcBXsGmMsip_OuUuiqeQfT7VM/view?usp=drive_link) |
 
-Example video of top-performing model (GNM-finetuned):
+Example video of top-performing model (GNM-finetuned) at 4X speed:
 
 [![Delta park on-policy](https://img.youtube.com/vi/Cq9TydxzxqU/hqdefault.jpg)](https://youtu.be/Cq9TydxzxqU)
 
