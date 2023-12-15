@@ -143,11 +143,12 @@ The videos below show models applied to pre-recorded data. In the videos green t
 
 | Model | Video |
 | ----- | ----- |
-| VAE | [![VAE](https://img.youtube.com/vi/9J8xiIbLHiM/hqdefault.jpg)](https://youtu.be/9J8xiIbLHiM) |
-| GNM finetuned | [![GNM finetuned](https://img.youtube.com/vi/PeYGA85I2FI/hqdefault.jpg)](https://youtu.be/PeYGA85I2FI) |
-| ViNT | [![ViNT](https://img.youtube.com/vi/pnftnew_JVo/hqdefault.jpg)](https://youtu.be/pnftnew_JVo) |
-| NoMaD with goal images at fixed intervals | [![NoMaD with moving goal](https://img.youtube.com/vi/KI7kkKAnis8/hqdefault.jpg)](https://youtu.be/KI7kkKAnis8) |
-| NoMaD with one fixed goal (exploratory mode) | [![NoMaD with fixed goal](https://img.youtube.com/vi/xCyGxyZ0rtA/hqdefault.jpg)](https://youtu.be/xCyGxyZ0rtA) |
+| VAE | [![VAE](https://drive.google.com/thumbnail?authuser=0&sz=w1280&id=1tquWlUhYx28-DWnEtpXirVE92o0qHx1p)](https://drive.google.com/file/d/1tquWlUhYx28-DWnEtpXirVE92o0qHx1p/view?resourcekey "VAE") |
+| GNM finetuned | [![GNM finetuned](https://drive.google.com/thumbnail?authuser=0&sz=w1280&id=180igiMJnWBf8YE3DZbCG853qSL2GkESc)](https://drive.google.com/file/d/180igiMJnWBf8YE3DZbCG853qSL2GkESc/view?resourcekey "GNM finetuned") |
+| ViNT | [![ViNT](https://drive.google.com/thumbnail?authuser=0&sz=w1280&id=1_QIvDJMR57MPVieUrc0xZOFegU5lanyt)](https://drive.google.com/file/d/1_QIvDJMR57MPVieUrc0xZOFegU5lanyt/view?resourcekey "ViNT") |
+| NoMaD with goal images at fixed intervals | [![NoMaD goal](https://drive.google.com/thumbnail?authuser=0&sz=w1280&id=1wso6B5fwrcYD3NxVQSd4vq_lhldbSDBb)](https://drive.google.com/file/d/1wso6B5fwrcYD3NxVQSd4vq_lhldbSDBb/view?resourcekey "NoMaD goal") |
+| NoMaD with one fixed goal (exploratory mode) | [![NoMaD explore](https://drive.google.com/thumbnail?authuser=0&sz=w1280&id=1EY5UJYbDQ6zVqpVaWhXPLwqbYNua4hgH)](https://drive.google.com/file/d/1EY5UJYbDQ6zVqpVaWhXPLwqbYNua4hgH/view?resourcekey "NoMaD explore") |
+| NoMaD orienteering | [![NoMaD orienteering](https://drive.google.com/thumbnail?authuser=0&sz=w1280&id=1BikGqAiGlq7qtQEK6XbJFApGiY28XP6G)](https://drive.google.com/file/d/1BikGqAiGlq7qtQEK6XbJFApGiY28XP6G/view "NoMaD orienteering") |
 
 ##### On-policy results indoors
 
