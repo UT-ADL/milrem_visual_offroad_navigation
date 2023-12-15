@@ -5,11 +5,11 @@
 | Company name | [Milrem Robotics](https://milremrobotics.com/) |
 | :--- | :--- |
 | Project Manager | Meelis Leib |
-| Consultant | Erik Ilbis |
+| Systems Architect | Erik Ilbis |
 
 | Company name | [Autonomous Driving Lab](https://adl.cs.ut.ee/), [Institute of Computer Science](https://cs.ut.ee/), [University of Tartu](https://ut.ee/) |
 | :--- | :--- |
-| Team Lead | [Tambet Matiisen](https://www.etis.ee/CV/Tambet_Matiisen/eng) |
+| Team lead | [Tambet Matiisen](https://www.etis.ee/CV/Tambet_Matiisen/eng) |
 | Data collection | Kertu Toompea |
 | Model training | Romet Aidla |
 | Robot integration | Anish Shrestha |
@@ -165,7 +165,7 @@ We recorded a fixed route in Delta office with goal images every 1 or 2 meters a
 
 Example video of top-performing model (GNM-finetuned) at 4X speed:
 
-[![Delta office on-policy](https://img.youtube.com/vi/PZ7-ZJ6SLpA/hqdefault.jpg)](https://youtu.be/PZ7-ZJ6SLpA)
+[![GNM finetuned indoors](https://drive.google.com/thumbnail?authuser=0&sz=w1280&id=15qihSb1BZ0RVqstDex32I_GUBa3ikWlf)](https://drive.google.com/file/d/15qihSb1BZ0RVqstDex32I_GUBa3ikWlf/view?resourcekey "GNM finetuned indoors")
 
 ##### On-policy results outdoors
 
@@ -181,7 +181,7 @@ We recorded a fixed route in Delta park with goal images every 2, 5 or 10 meters
 
 Example video of top-performing model (GNM-finetuned) at 4X speed:
 
-[![Delta park on-policy](https://img.youtube.com/vi/Cq9TydxzxqU/hqdefault.jpg)](https://youtu.be/Cq9TydxzxqU)
+[![GNM finetuned outdoors](https://drive.google.com/thumbnail?authuser=0&sz=w1280&id=1XViu-Hy7rpZOxas_RN6DIvZqgm3o_uc0)](https://drive.google.com/file/d/1XViu-Hy7rpZOxas_RN6DIvZqgm3o_uc0/view?resourcekey "GNM finetuned outdoors")
 
 #### Global planner
 
@@ -195,23 +195,23 @@ Following videos show on-policy simulation where the robot proposes a number of 
 
 | Location | Video |
 | -------- | ----- |
-| Ihaste | [![Ihaste](https://img.youtube.com/vi/wI3Tavbgs5M/hqdefault.jpg)](https://youtu.be/wI3Tavbgs5M) |
-| Kärgandi, sticking to the road | [![Kärgandi](https://img.youtube.com/vi/o82MFpMYh5c/hqdefault.jpg)](https://youtu.be/o82MFpMYh5c) |
-| Annelinn, avoidance of houses | [![Kärgandi](https://img.youtube.com/vi/5qfriy7qhW0/hqdefault.jpg)](https://youtu.be/5qfriy7qhW0) |
+| Ihaste | [![Ihaste](https://drive.google.com/thumbnail?authuser=0&sz=w1280&id=1cYjqSuJw1GiFWJD4dCPtVZDfcnfY60lt)](https://drive.google.com/file/d/1cYjqSuJw1GiFWJD4dCPtVZDfcnfY60lt/view?resourcekey "Ihaste") |
+| Kärgandi, sticking to the road | [![Kärgandi](https://drive.google.com/thumbnail?authuser=0&sz=w1280&id=198s90PuRA5Hu_Fdqus3q-sHthC79i5Oj)](https://drive.google.com/file/d/198s90PuRA5Hu_Fdqus3q-sHthC79i5Oj/view?resourcekey "Kärgandi") |
+| Annelinn, avoidance of houses | [![Annelinn](https://drive.google.com/thumbnail?authuser=0&sz=w1280&id=1FlzEf6NuaYQm3XvNYK3s9jMdqaTcXTB9)](https://drive.google.com/file/d/1FlzEf6NuaYQm3XvNYK3s9jMdqaTcXTB9/view?usp=sharing "Annelinn") |
 
 Following videos show different behavior for different map modalities.
 
 | Location | Video |
 | -------- | ----- |
-| Base map - sticking to the road | [![Ihaste](https://img.youtube.com/vi/7HMwVmDzGak/hqdefault.jpg)](https://youtu.be/7HMwVmDzGak) |
-| Road map - going straight (not enough context) | [![Ihaste](https://img.youtube.com/vi/-EbNeVx_BrE/hqdefault.jpg)](https://youtu.be/-EbNeVx_BrE) |
-| Orthophoto - mostly sticking to the road | [![Ihaste](https://img.youtube.com/vi/_4irqiPSgBM/hqdefault.jpg)](https://youtu.be/_4irqiPSgBM) |
+| Base map - sticking to the road | [![Base map](https://drive.google.com/thumbnail?authuser=0&sz=w1280&id=1ZPHZ-QpzHZBQanpG8eYiiiogvydpmpFx)](https://drive.google.com/file/d/1ZPHZ-QpzHZBQanpG8eYiiiogvydpmpFx/view?usp=sharing "Base map") |
+| Road map - going straight (not enough context) | [![Road map](https://drive.google.com/thumbnail?authuser=0&sz=w1280&id=1VJDL_tAtN4EEGPLBBhsOQc6hVFQCfcSw)](https://drive.google.com/file/d/1VJDL_tAtN4EEGPLBBhsOQc6hVFQCfcSw/view?usp=sharing "Road map") |
+| Orthophoto - mostly sticking to the road | [![Orthophoto](https://drive.google.com/thumbnail?authuser=0&sz=w1280&id=1pQPds16DvvY1OCAJqYb46ydj_qGQwP_V)](https://drive.google.com/file/d/1pQPds16DvvY1OCAJqYb46ydj_qGQwP_V/view?usp=sharing "Orthophoto") |
 
 #### Putting it all together
 
 Following video shows off-policy evaluation of the whole system on recorded session:
 
-[![Delta off-policy](https://img.youtube.com/vi/Y_p7K6vJmA8/hqdefault.jpg)](https://youtu.be/Y_p7K6vJmA8)
+[![GNM finetuned final](https://drive.google.com/thumbnail?authuser=0&sz=w1280&id=1KalpFLTmOaGKL637TwrBqgWgkHOvQbCR)](https://drive.google.com/file/d/1KalpFLTmOaGKL637TwrBqgWgkHOvQbCR/view?usp=sharing "GNM finetuned final")
 
 On-policy evaluation of the whole system was not possible due to some technical difficulties with the GNSS sensor and due to winter making the use of the models pointless, because they were mainly trained on summer data.
 
@@ -268,9 +268,9 @@ Final takeaways:
 
 ### Description of User Interface 
 
-![UI](https://img.youtube.com/vi/Y_p7K6vJmA8/0.jpg)
+![GNM finetuned final](https://drive.google.com/thumbnail?authuser=0&sz=w1280&id=1KalpFLTmOaGKL637TwrBqgWgkHOvQbCR)
 
 * The screen shows current camera image and proposed trajectories.
 * Top right shows the goal image.
-* Bottom right shows the map and probability map (the path from current position to goal). Proposed waypoint colors match the proposed trajectory colors. 
+* Bottom right shows the probability map (the path from current position to goal) and original map. Waypoint colors match the trajectory colors. 
 * The left pane shows the robot command.
