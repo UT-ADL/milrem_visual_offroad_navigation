@@ -39,7 +39,7 @@ Examples of desired environment:
 
 The goal of using passive sensors means that the camera is the primary sensor. The currently best known way to make sense of camera images is to use artificial neural networks. These networks need a lot of training data to work well. Therefore the main goal of this project was to collect and validate the data to train artificial neural networks for vision-based navigation.
 
-We set ourselves a goal to collect 50 hours of data consisting of 150 km of trajectories. This was inspired by the ViKiNG paper having 42 hours of training data. Time-wise this goal was achieved, distance-wise slightly less data was collected, 104 km.
+We set ourselves a goal to collect 50 hours of data consisting of 150 km of trajectories. This was inspired by the ViKiNG paper having 42 hours of training data. Time-wise this goal was achieved, distance-wise 104 km was collected.
 
 In addition to collecting the data we wanted to validate if it is usable for training the neural networks. We actually went further than that by not only training the networks, but also implementing a proof-of-concept navigation system on [Jackal robot](https://clearpathrobotics.com/jackal-small-unmanned-ground-vehicle/).
 
@@ -47,7 +47,7 @@ In addition to collecting the data we wanted to validate if it is usable for tra
 
 ### Data sources
 
-The data was collected from April 12th till October 6th, 2023 from 27 orienteering events and 20 self-guided sessions. Details of the places and weather conditions can be found in [this table](https://docs.google.com/spreadsheets/d/1QvA2ZYTeZOpk7b1DCHypi17wS-ywxv5n0ifdOzRoi_o/edit?usp=sharing).
+The data was collected from April 12th till October 6th, 2023 from 27 orienteering events and 20 self-guided sessions around Tartu, Estonia. Details of the places and weather conditions can be found in [this table](https://docs.google.com/spreadsheets/d/1QvA2ZYTeZOpk7b1DCHypi17wS-ywxv5n0ifdOzRoi_o/edit?usp=sharing).
 
 Data collection was performed with golf trolley fitted with following sensors:
 * [ZED 2i](https://www.stereolabs.com/products/zed-2) stereo camera
@@ -84,8 +84,6 @@ Further cleaning was applied to the data with following sections removed:
 * Model prediction errors were analyzed
 * Bad trajectories
 * Missing or bad camera images
-* 90° turns
-* Climbing over fallen trees
 
 Altogether this resulted in 94.4 km of trajectories used for training.
 
@@ -209,9 +207,9 @@ Following videos show different behavior for different map modalities.
 
 #### Putting it all together
 
-Following video shows off-policy evaluation of the whole system on recorded session:
+Following video shows off-policy evaluation of the whole system on recorded session. Colored trajectories as produced with crops of the original camera image used as goal, as shown in the video. White trajectory comes from the final goal. 
 
-[![GNM finetuned final](https://drive.google.com/thumbnail?authuser=0&sz=w1280&id=1KalpFLTmOaGKL637TwrBqgWgkHOvQbCR)](https://drive.google.com/file/d/1KalpFLTmOaGKL637TwrBqgWgkHOvQbCR/view?usp=sharing "GNM finetuned final")
+[![Delta park off-policy final](https://drive.google.com/thumbnail?authuser=0&sz=w1280&id=1hXT95sj3iY2_OIvyIv8ObQHLKkCdJ1Lu)](https://drive.google.com/file/d/1hXT95sj3iY2_OIvyIv8ObQHLKkCdJ1Lu/view?usp=sharing "Delta park off-policy final")
 
 On-policy evaluation of the whole system was not possible due to some technical difficulties with the GNSS sensor and due to winter making the use of the models pointless, because they were mainly trained on summer data.
 
@@ -248,6 +246,7 @@ For global planner following network architectures were tried:
 The working solution could be used in any area that needs navigation in unstructured environment with poor GPS signal and outdated maps, for example:
 * military,
 * agriculture,
+* forestry,
 * rescue.
 
 The dataset collected in this project can also be used to create a visual navigation benchmark and international robot orienteering competition. Such competition would make novel solutions and international talent accessible to Milrem Robotics.
@@ -258,7 +257,7 @@ For training the local planner the dataset seemed insufficient or contained too 
 
 Alternative model outputs could be considered, e.g. predicting free space instead of trajectories and proposing waypoints from that free space. Also collection of more explorative data directly with the robot might be necessary, as in the ViKiNG paper they used mainly automatically collected exploratory data (30 hours) and relatively few expert trajectories (12 hours). In our case all of the data was expert trajectories.
 
-Global planner trained much better and was able to estimate reasonably well the recommended path between two points. We also observed different behavior for different map modalities, e.g. base map and orthophotos. More work is needed to reduce the artifacts produced by the fully convolutional network and some map modalities might need further tuning.
+Global planner trained much better and was able to estimate reasonably well the recommended path between two points. We also observed different behavior for different map modalities, e.g. base map and road map. More work is needed to reduce the artifacts produced by the fully convolutional network and some map modalities might need further tuning.
 
 Final takeaways:
 * Training neural networks in 2023 is still hard.
@@ -268,9 +267,8 @@ Final takeaways:
 
 ### Description of User Interface 
 
-![GNM finetuned final](https://drive.google.com/thumbnail?authuser=0&sz=w1280&id=1KalpFLTmOaGKL637TwrBqgWgkHOvQbCR)
+![Delta park off-policy final](https://drive.google.com/thumbnail?authuser=0&sz=w1280&id=1hXT95sj3iY2_OIvyIv8ObQHLKkCdJ1Lu)
 
-* The screen shows current camera image and proposed trajectories.
-* Top right shows the goal image.
+* The screen shows current camera image and proposed trajectories. White trajectory represents the trajectory induced by the goal image at top right.
 * Bottom right shows the probability map (the path from current position to goal) and original map. Waypoint colors match the trajectory colors. 
 * The left pane shows the robot command.
