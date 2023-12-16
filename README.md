@@ -207,7 +207,7 @@ Following videos show different behavior for different map modalities.
 
 #### Putting it all together
 
-Following video shows off-policy evaluation of the whole system on recorded session. Colored trajectories as produced with crops of the original camera image used as goal, as shown in the video. White trajectory comes from the final goal. 
+Following video shows off-policy evaluation of the whole system on a recorded session. Colored trajectories are produced with crops of the original camera image used as goal, as shown in the video. White trajectory comes from the final goal. 
 
 [![Delta park off-policy final](https://drive.google.com/thumbnail?authuser=0&sz=w1280&id=1hXT95sj3iY2_OIvyIv8ObQHLKkCdJ1Lu)](https://drive.google.com/file/d/1hXT95sj3iY2_OIvyIv8ObQHLKkCdJ1Lu/view?usp=sharing "Delta park off-policy final")
 
