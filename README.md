@@ -19,15 +19,15 @@
 
 The goal of the project is to collect and validate dataset for vision-based off-road navigation with geographical hints.
 
-Milrem UGV needs to be able to navigate:
+Milrem UGV must to be able to navigate:
 * in unstructured environment (no buildings, roads or other landmarks),
-* with passive sensors (using only camera and GNSS, active sensors make the UGV discoverable to the enemy),
+* with passive sensors (using only camera and GNSS, active sensors make the UGV discoverable),
 * with no prior map or with outdated map,
 * with unreliable satellite positioning signals.
 
 System that satisfies the above goals was proposed in the [ViKiNG paper](https://sites.google.com/view/viking-release) by Dhruv Shah and Sergey Levine from University of California, Berkeley. The paper demonstrated vision-based kilometer-scale navigation with geographical hints in semi-structured urban environments, including parks. The goal of this project was to extend the ViKiNG solution to unstructured off-road environments, for example forests.
 
-Examples of desired environment:
+Examples of the desired environment:
 
 | | | |
 |-|-|-|
@@ -49,7 +49,7 @@ In addition to collecting the data we wanted to validate if it is usable for tra
 
 The data was collected from April 12th till October 6th, 2023 from 27 orienteering events and 20 self-guided sessions around Tartu, Estonia. Details of the places and weather conditions can be found in [this table](https://docs.google.com/spreadsheets/d/1QvA2ZYTeZOpk7b1DCHypi17wS-ywxv5n0ifdOzRoi_o/edit?usp=sharing).
 
-Data collection was performed with golf trolley fitted with following sensors:
+Data collection was performed with golf trolley fitted with the following sensors:
 * [ZED 2i](https://www.stereolabs.com/products/zed-2) stereo camera
 * [Xsens MTI-710G](https://www.movella.com/products/sensor-modules/xsens-mti-g-710-gnss-ins) GNSS/INS device
 * 3x [GoPro cameras](https://gopro.com/en/us/shop/cameras/hero12-black/CHDHX-121-master.html) at three different heights
@@ -123,7 +123,7 @@ These two models work in coordination to handle outdated maps and inaccurate GPS
 
 For local planner following network architectures were considered:
 | Model | Pretrained weights | Trained or finetuned | On-policy tested | Generative | Waypoint proposal method |
-|-------|--------------------|----------------------|------------------|------------|--------------------------|
+|-------|:------------------:|:--------------------:|:----------------:|:----------:|--------------------------|
 | [VAE](https://sites.google.com/view/viking-release) | - | + | + | + | Sampling from latent representation |
 | [GNM](https://sites.google.com/view/drive-any-robot) | + | + | + | - | Cropping the current observation |
 | [ViNT](https://general-navigation-models.github.io/vint/index.html)  | + | - | + | + | Goal image diffusion |
@@ -131,7 +131,7 @@ For local planner following network architectures were considered:
 
 VAE model was trained from scratch, all other models were used with pre-trained weights from Berkeley group. GNM model was additionally fine-tuned with our own dataset.
 
-The models were tested both off-policy and on-policy. Off-policy means that the model was applied to recorded data, the model's actions were just visualized, but not actuated. On-policy means that the model’s actions were actually actuated on the robot.
+The models were tested both off-policy and on-policy. Off-policy means that the model was applied to recorded data, the model's predicted actions were just visualized, but not actuated. On-policy means that the model’s predicted actions were actually actuated on the robot.
 
 For on-policy testing we recorded a fixed route, took goal images at fixed intervals and measured success rate in navigating to every goal image along the route. Basically it shows how well the model understands the direction of goal image and how well detect it can detect if the goal was reached. The operator intervened when the robot was going completely off the path and guided it back to the track. Sometimes the robot failed to detect the goal, but was driving in the right direction and successfully recognized the subsequent goal. Then the goal was not marked as achieved, but no intervention was necessary.
 
