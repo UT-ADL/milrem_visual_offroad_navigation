@@ -148,6 +148,12 @@ The videos below show models applied to pre-recorded data. In the videos green t
 | NoMaD with one fixed goal (exploratory mode) | [![NoMaD explore](https://drive.google.com/thumbnail?authuser=0&sz=w1280&id=1EY5UJYbDQ6zVqpVaWhXPLwqbYNua4hgH)](https://drive.google.com/file/d/1EY5UJYbDQ6zVqpVaWhXPLwqbYNua4hgH/view?resourcekey "NoMaD explore") |
 | NoMaD orienteering | [![NoMaD orienteering](https://drive.google.com/thumbnail?authuser=0&sz=w1280&id=1BikGqAiGlq7qtQEK6XbJFApGiY28XP6G)](https://drive.google.com/file/d/1BikGqAiGlq7qtQEK6XbJFApGiY28XP6G/view "NoMaD orienteering") |
 
+Comments:
+* VAE prefers going straight, probably because of too homogeneous training dataset. GNM and ViNT turn slightly less compared to the ground truth trajectory, but that is not necessarily a problem when running the models on-policy. NoMaD seems to turn the most.
+* GNM and VAE are trained with time-interval trajectories that shorten close to goal or obstacle. ViNT and NoMaD seem to be trained with distance-interval trajectories that do not shorten. Distance prediction shortens with all models near the goal.
+* VAE and NoMaD can directly produce multiple candidate trajectories. VAE trajectories are only conditioned on observation, NoMaD trajectories are additionally conditioned on goal. NoMaD trajectories show some multi-modal behavior (passing the tree from both sides).
+* For GNM and ViNT the only way to generate multiple trajectories is to use different goal images. The image diffusion approach used in ViNT paper seemed overkill to us, so we experimented instead using crops of the observation images. Some examples can be seen below in the Putting all together section.
+
 ##### On-policy results indoors
 
 We recorded a fixed route in Delta office with goal images every 1 or 2 meters and measured the goal success rate for each interval.
@@ -161,7 +167,13 @@ We recorded a fixed route in Delta office with goal images every 1 or 2 meters a
 | GNM finetuned | 2m | 15 | 0 | 93.33 | [video](https://drive.google.com/file/d/1kHIW5LfpA2eoPawgp5HJprsbevPLBXgg/view?usp=drive_link) |
 | ViNT | 2m | 15 | 0 | 93.33 | [video](https://drive.google.com/file/d/19egUyGQgr0efxUop5Jl9mVbd9vws7GYe/view?usp=drive_link) |
 
-Example video of top-performing model (GNM-finetuned) at 4X speed:
+Comments:
+* VAE cannot be used indoors, because its training data did not include indoor scenes.
+* NoMaD integration with robot was not finished by the time of testing.
+* Using bigger than 2m intnervals indoors was pointless - because of too steep turns the goal wouldn't be within line of sight.
+* GNM finetuned did better than vanilla GNM, possibly due to finetuning dataset having the same camera as during testing.
+
+Example video of top-performing model (GNM finetuned) at 4X speed:
 
 [![GNM finetuned indoors](https://drive.google.com/thumbnail?authuser=0&sz=w1280&id=15qihSb1BZ0RVqstDex32I_GUBa3ikWlf)](https://drive.google.com/file/d/15qihSb1BZ0RVqstDex32I_GUBa3ikWlf/view?resourcekey "GNM finetuned indoors")
 
@@ -177,9 +189,26 @@ We recorded a fixed route in Delta park with goal images every 2, 5 or 10 meters
 | ViNT | 5m | 17 | 7 | 100 | [video](https://drive.google.com/file/d/1lvwFo9fWuyTr2sdfYbFnmEqpWYJFSFrI/view?usp=drive_link) |
 | ViNT | 10m | 8 | 9 | 100 | [video](https://drive.google.com/file/d/1xMCT0IKqcBXsGmMsip_OuUuiqeQfT7VM/view?usp=drive_link) |
 
-Example video of top-performing model (GNM-finetuned) at 4X speed:
+Comments:
+* Vanilla GNM goal recognition was slightly more reliable than with GNM finetuned, but GNM finetuned was more reliable on staying on the track.
+* While at 5m intervals the models achieved 100% success rate, this came at the expense of 7 interventions - for half of the goals the operator had to help the robot to achieve it.
+* At 10m intervals the only tested model ViNT was basically useless - it had more interventions than goals. Basically for each goal the operator had to give a hand to the robot.
+* Goal distances predicted outdoors seemed to be in general longer than distances predicted indoors, i.e. we had to use different "goal achieved" threshold indoors and outdoors.
+* NoMaD integration with robot was not finished by the time of testing.
+* VAE did not perform reasonably well to be included in the table. It tended to go straight all the time.
+
+Example video of top-performing model (GNM finetuned) at 4X speed:
 
 [![GNM finetuned outdoors](https://drive.google.com/thumbnail?authuser=0&sz=w1280&id=1XViu-Hy7rpZOxas_RN6DIvZqgm3o_uc0)](https://drive.google.com/file/d/1XViu-Hy7rpZOxas_RN6DIvZqgm3o_uc0/view?resourcekey "GNM finetuned outdoors")
+
+##### Summary of local planner results
+
+| Model         | Goal following | Turning | Obstacle avoidance | Trail following | Trajectory diversity | Trajectory multi-modality |
+|:-------------:|:--------------:|:-------:|:------------------:|:---------------:|:--------------------:|:-------------------------:|
+| VAE           | limited        | poor    | limited            | good            | limited              | poor                      |
+| GNM finetuned | good           | limited | good               | limited         | -                    | -                         |
+| ViNT          | good           | limited | limited            | limited         | -                    | -                         |
+| NoMaD         | good           | good    | good               | good            | good                 | limited                   |
 
 #### Global planner
 
