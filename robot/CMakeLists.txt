@@ -226,7 +226,6 @@ catkin_install_python(PROGRAMS
   nodes/image_publisher_node.py
   nodes/deadman_switch.py
   nodes/inference_distance_spaced_goals.py
-  nodes/dummy_onnx_run.py
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 
